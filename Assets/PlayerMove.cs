@@ -51,7 +51,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
-        transform.position += new Vector3(horizontal * Time.deltaTime * 5, 0, 0);
+        //transform.position += new Vector3(horizontal * Time.deltaTime * 5, 0, 0);
 
         for(int i = 0; i < _arms_r.Count; i++)
         {
