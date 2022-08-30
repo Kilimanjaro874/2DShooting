@@ -11,6 +11,7 @@ public class mouseChaice : MonoBehaviour
     {
         mouse = Input.mousePosition;
         target = Camera.main.ScreenToWorldPoint(new Vector3(mouse.x, mouse.y, 0f));
+        target = new Vector3(target.x, target.y, 0f);
         this.transform.position = target;
     }
 }
