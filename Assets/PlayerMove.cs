@@ -18,11 +18,7 @@ public class PlayerMove : MonoBehaviour
     private List<GameObject> _arms_r;
     [SerializeField]
     private List<GameObject> _arms_l;
-    [SerializeField]
-    private List<GameObject> _legs_r;
-    [SerializeField]
-    private List<GameObject> _legs_l;
-
+   
     // ---- ‹t‰^“®Šw‚Ì–Ú•WˆÊ’u‚ğİ’è ----
     [SerializeField]
     private List<GameObject> _arms_r_TG;
@@ -43,7 +39,7 @@ public class PlayerMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+     
 
     }
 
