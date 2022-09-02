@@ -5,36 +5,25 @@ using UnityEngine;
 public class PlayerShot : MonoBehaviour
 {
     [SerializeField]
-    private Transform _muzzlePos;
+    private Transform _muzzlePos;       // 銃口位置
     [SerializeField]
-    private Transform _targetPos;
+    private Transform _targetPos;       // 照準位置
     [SerializeField]
-    private GameObject _bullet;
+    private GameObject _bullet;         // 弾丸オブジェクト：インスタンスする用
     [SerializeField]
-    private float _reloadTime = 10.2f;
-    private float _reloadCount = 0f;
-    [SerializeField]
-    private float _bulletSpeed = 100.0f;    // 
+    private float _reloadTime = 10.2f;  // 弾丸リロード時間
+    private float _reloadCount = 0f;    // リロード時間カウント用
 
-    [SerializeField]
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-
+        // リロードが済んでいれば弾丸発射
         Shot();
 
     }
 
     void Shot()
     {
+        // リロード時間完了＆Fire1コマンド実行時、弾丸インスタンス化＆向き補正
         if (Count(false) && Input.GetAxis("Fire1") > 0)
         {
             // 射撃処理
@@ -51,9 +40,11 @@ public class PlayerShot : MonoBehaviour
 
     bool Count(bool reset)
     {
+        // リロード時間の管理
         if (reset) {_reloadCount = 0f; }
         _reloadCount += Time.deltaTime;
         if (_reloadCount <= _reloadTime) return false;
         return true;
     }
+
 }

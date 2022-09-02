@@ -44,7 +44,7 @@ public class GroundSpawner : MonoBehaviour
             var x = transform.GetChild(i).position.x;
             transform.GetChild(i).transform.position = new Vector3(x + _groundSpeed, transform.position.y, 0);
 
-            // groundが基準値(_ground_delete_x)以下となったとき、ground生成＆ground削除
+            // ground位置が基準値(_ground_delete_x)以下となったとき、進行方向最後方へground生成＆ground(i)削除
             if(transform.GetChild(i).transform.position.x <= _ground_delete_x)
             {
                 // 生成(最後に生成された子オブジェクトの位置を参照し、新たなgroundの相対位置を決定)
@@ -58,7 +58,6 @@ public class GroundSpawner : MonoBehaviour
             }
         }
 
-        // groundが
     }
 
 }

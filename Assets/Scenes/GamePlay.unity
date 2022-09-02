@@ -154,6 +154,7 @@ Transform:
   - {fileID: 1489922589}
   - {fileID: 1935963110}
   - {fileID: 1250696668}
+  - {fileID: 810210154}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -336,7 +337,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 343643745}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 852d3a491896039469ddb15ec81b9905, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -352,7 +353,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 343643745}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 852d3a491896039469ddb15ec81b9905, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -846,6 +847,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kp: 0.1
+--- !u!1 &810210153
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 810210154}
+  m_Layer: 0
+  m_Name: BackGroundSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &810210154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810210153}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 32262546}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &827079459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2030,7 +2062,6 @@ MonoBehaviour:
   _targetPos: {fileID: 1389139101}
   _bullet: {fileID: 348265894301565458, guid: 5d771817209da2748b18b462a522af25, type: 3}
   _reloadTime: 0.5
-  _bulletSpeed: 100
 --- !u!1 &2125253735 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3489937119207828412, guid: bab55d8f661bd6c40b5541d3aefbf7fa, type: 3}

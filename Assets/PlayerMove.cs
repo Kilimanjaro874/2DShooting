@@ -6,25 +6,26 @@ using System.Linq;
 public class PlayerMove : MonoBehaviour
 {
     /// <summary>
-    /// キャラクターをキー入力で動かすクラス。
-    /// また、キャラクターの逆運動学問題を解決しながら、スムーズに動作させる
+    /// キャラクターが持つ銃をターゲットへ向けるスクリプト
+    /// キャラクターの腕の逆運動学を解決しながら、スムーズに動作させる
+    /// 2Dキャラクターにはboneが設定済みであり、各boneの逆運動学を解く事で動きを実現
+    /// (試験的に自作した n - linkゲームオブジェクトの逆運動学を解くスクリプトを作用させる)
     /// </summary>
 
     [SerializeField]
-    private Transform _target;
+    private Transform _target;          // 照準：ターゲット
 
     // ---- 逆運動学を解く対象を設定 ----
     [SerializeField]
-    private List<GameObject> _arms_r;
+    private List<GameObject> _arms_r;       // 右腕ゲームオブジェクトリスト
     [SerializeField]
-    private List<GameObject> _arms_l;
+    private List<GameObject> _arms_l;       // 左腕ゲームオブジェクトリスト
    
     // ---- 逆運動学の目標位置を設定 ----
     [SerializeField]
-    private List<GameObject> _arms_r_TG;
+    private List<GameObject> _arms_r_TG;    // 各右腕ゲームオブジェクトの目標位置リスト
     [SerializeField]
-    private List<GameObject> _arms_l_TG;
-
+    private List<GameObject> _arms_l_TG;    // 各左腕ゲームオブジェクトの目標位置リスト
 
     // ---- 逆運動学の目標位置へ追従させるリンクを設定 ----
     [SerializeField]
@@ -32,18 +33,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private List<GameObject> _arms_l_EE;
 
-
-
-
     GameObject _root;
-    // Start is called before the first frame update
-    void Start()
-    {
-     
-
-    }
-
-    // Update is called once per frame
+   
     void Update()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");

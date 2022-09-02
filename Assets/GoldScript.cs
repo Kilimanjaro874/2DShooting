@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class GoldScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private int _score = 100;
 
-    // Update is called once per frame
-    void Update()
+    public int GetScore()
     {
-        
+        // ƒXƒRƒA‚ÌŽó‚¯“n‚µ
+        return _score; 
     }
 }
