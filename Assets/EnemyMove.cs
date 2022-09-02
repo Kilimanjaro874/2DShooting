@@ -24,7 +24,12 @@ public class EnemyMove : MonoBehaviour
 
     private int _damage = 0;
 
-   
+
+    private void Update()
+    {
+        // ダメージに応じてゴールドドロップ
+    }
+
     private void FixedUpdate()
     {
         // ヘリを位置制御（ふわふわ飛んでいる感じを再現＆制御係数で感じの調整したい)
@@ -56,7 +61,7 @@ public class EnemyMove : MonoBehaviour
 
     private void HeliController(float delta_time, Transform targetPos)
     {
-        // --- ヘリコプターのPID制御 --- //
+        // --- ヘリコプターの位置PID制御 --- //
         // -- 誤差計算 -- //
         Vector3 posError = targetPos.position - transform.position;
         // -- 制御入力生成 -- //
@@ -70,7 +75,7 @@ public class EnemyMove : MonoBehaviour
 
         _preErrorPos = posError;    // 今フレームの誤差を格納しておく
 
-        // --- ヘリコプターの水平制御 --- //
+        // --- ヘリコプターの姿勢水平制御 --- //
         // -- 水平移動中の速度に応じて傾斜角度変化 
         if (_rb2D.velocity.x < 0)
         {
@@ -121,5 +126,11 @@ public class EnemyMove : MonoBehaviour
                 this.transform.rotation = qz * transform.rotation;
             }
         }
+    }
+
+    public int GetDamage()
+    {
+        // ヘリのダメージ総量を返す
+        return _damage;
     }
 }

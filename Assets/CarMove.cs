@@ -63,5 +63,11 @@ public class CarMove : MonoBehaviour
         }
     }
 
+    public int GetScore()
+    {
+        // ƒXƒRƒAÏZ—Ê‚ğ•Ô‚·
+        return _score;
+    }
+
 
 }
