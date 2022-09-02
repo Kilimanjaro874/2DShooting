@@ -16,8 +16,6 @@ public class CarMove : MonoBehaviour
  
     private float _inputHor = 0;            // ユーザー入力水平方向記録用
 
-    [SerializeField]
-    private TextMeshProUGUI _scoreText;     // ゲームスコアテキスト参照用
     private int _score = 0;                 // ゲームスコア
 
     private void Update()
@@ -26,9 +24,6 @@ public class CarMove : MonoBehaviour
         _inputHor = Input.GetAxisRaw("Horizontal");
         //this.transform.position = _rb2D.transform.position;
         //this.transform.rotation = _rb2D.transform.rotation;
-
-        // スコアをUIへ反映
-        _scoreText.text = _score.ToString();
     }
 
 
