@@ -43,12 +43,16 @@ public class BackGroundManager : MonoBehaviour
             transform.GetChild(i).transform.position = new Vector3(x + _backGroundSpeed, transform.position.y, 1);
 
             // backGround位置が基準値(_background_delete_x)以下になったとき、進行方向最後方へbackground生成＆ground(i)削除
-            //var backGround = Instantiate(_backGround);
-            //backGround.transform.SetParent(transform, false);
-            //var diff_x = transform.GetChild(_spawnNum - 1).position.x + _spawnSpan;
-            //backGround.transform.position = new Vector3(diff_x, transform.position.y, 1);
-            //// 削除
-            //Destroy(transform.GetChild(i).gameObject);
+            if(transform.GetChild(i).transform.position.x <= _backGround_delete_x)
+            {
+                var backGround = Instantiate(_backGround);
+                backGround.transform.SetParent(transform, false);
+                var diff_x = transform.GetChild(_spawnNum - 1).position.x + _spawnSpan;
+                backGround.transform.position = new Vector3(diff_x, transform.position.y, 1);
+                // 削除
+                Destroy(transform.GetChild(i).gameObject);
+            }
+          
         }
         
     }
