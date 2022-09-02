@@ -17,17 +17,14 @@ public class EnemyMove : MonoBehaviour
     float _ki = 0.01f;      // I制御係数
     [SerializeField]
     float _kd = 3.5f;       // D制御係数
-    float _velMax = 1.0f;   // 速度上限
-    float _accMax = 0.5f;   // 加速度上限
+    [SerializeField]
+    float _angleLim = 20f;  // ヘリ傾斜角度限界(deg) 
+    [SerializeField]
+    float _dth = 1f;  // ヘリ傾斜角度制御係数
 
     private int _damage = 0;
 
-    private void Start()
-    {
-        // 制御用パラメータ初期化
-        _preErrorPos = transform.position;   // Vector3D(x,y,z) -> Vector2D(x,y);
-    }
-
+   
     private void FixedUpdate()
     {
         // ヘリを位置制御（ふわふわ飛んでいる感じを再現＆制御係数で感じの調整したい)
@@ -74,5 +71,55 @@ public class EnemyMove : MonoBehaviour
         _preErrorPos = posError;    // 今フレームの誤差を格納しておく
 
         // --- ヘリコプターの水平制御 --- //
+        // -- 水平移動中の速度に応じて傾斜角度変化 
+        if (_rb2D.velocity.x < 0)
+        {
+            // - 後方移動の場合 - 
+            // rad :: +
+            Vector3 rotEuler = this.transform.rotation.eulerAngles;
+            float rotz = 0;
+            if (rotEuler.z > 90)
+            {
+                rotz = rotEuler.z - 360f;
+            }
+            else
+            {
+                rotz = rotEuler.z;
+            }
+            if (rotz < _angleLim)
+            {
+                Quaternion qz = Quaternion.AngleAxis(_dth, transform.forward);
+                this.transform.rotation = qz * transform.rotation;
+            }
+            else
+            {
+                Quaternion qz = Quaternion.AngleAxis(_dth, -transform.forward);
+                this.transform.rotation = qz * transform.rotation;
+            }
+
+        }
+        else if (_rb2D.velocity.x >= 0)
+        {
+            // - 前方移動の場合 - 
+            // rad :: -
+            Vector3 rotEuler = this.transform.rotation.eulerAngles;
+            float rotz = 0;
+            if (rotEuler.z > 90)
+            {
+                rotz = rotEuler.z - 360f;
+            } else
+            {
+                rotz = rotEuler.z;
+            }
+            if (rotz > -_angleLim)
+            {
+                Quaternion qz = Quaternion.AngleAxis(_dth, -transform.forward);
+                this.transform.rotation = qz * transform.rotation;
+            } else
+            {
+                Quaternion qz = Quaternion.AngleAxis(_dth, transform.forward);
+                this.transform.rotation = qz * transform.rotation;
+            }
+        }
     }
 }
