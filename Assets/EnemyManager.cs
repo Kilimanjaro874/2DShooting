@@ -10,8 +10,12 @@ public class EnemyManager : MonoBehaviour
     private List<Vector3> _enemyRandPos;    // 敵の移動位置を格納
     [SerializeField]
     private int _enemyRandPosNum = 10;           // 敵移動位置個数指定
+    [SerializeField]
     private float _moveTime = 3F;           // 敵の移動スパン(s)
+
+   
     private float _moveTimeCount = 0F;      // 敵の移動スパンカウント用
+    private int _damageTotal = 0;           // ダメージ総量
 
     private void Start()
     {
@@ -22,10 +26,10 @@ public class EnemyManager : MonoBehaviour
             _enemyRandPos.Add(new Vector3(x, y, 0));
         }
         // 次の4つの隅位置は欲しいので追加する
-        _enemyRandPos.Add(new Vector3(-6, 12, 0));
-        _enemyRandPos.Add(new Vector3(16, 12, 0));
+        _enemyRandPos.Add(new Vector3(-4, 14, 0));
+        _enemyRandPos.Add(new Vector3(14, 14, 0));
         _enemyRandPos.Add(new Vector3(-4, 8, 0));
-        _enemyRandPos.Add(new Vector3(16, 8, 0));
+        _enemyRandPos.Add(new Vector3(14, 8, 0));
 
     }
 

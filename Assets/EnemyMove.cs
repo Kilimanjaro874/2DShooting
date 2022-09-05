@@ -46,8 +46,6 @@ public class EnemyMove : MonoBehaviour
             _damage += bullet.GetBulletDamage();    //  ƒ_ƒ[ƒW‰ÁŽZ
             Destroy(other.gameObject);              //  ’eŠÛÁ‹Ž
         }
-        
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -58,7 +56,6 @@ public class EnemyMove : MonoBehaviour
             _damage += bullet.GetBulletDamage();
             Destroy(collision.gameObject);              //  ’eŠÛÁ‹Ž
         }
- 
     }
 
     private void HeliController(float delta_time, Transform targetPos)
@@ -121,75 +118,6 @@ public class EnemyMove : MonoBehaviour
             }
         }
 
-        //// ‘OŒXŠp“x‚É‚µ‚½‚¢
-        //if (rotz >= -_angleLim)
-        //{
-        //    //Quaternion qz = Quaternion.AngleAxis(-_dth, transform.forward);
-        //    //_rb2D.transform.rotation = qz * transform.rotation;
-        //    transform.Rotate(0, 0, _dth);
-        //}
-        //else if (rotz < -_angleLim)
-        //{
-        //    transform.Rotate(0, 0, _dth);
-        //    //Quaternion qz = Quaternion.AngleAxis(_dth, transform.forward);
-        //    //_rb2D.transform.rotation = qz * transform.rotation;
-        //}
-
-        // Œãi’†
-
-
-
-
-
-        //if (_rb2D.velocity.x < 0)
-        //{
-        //    // - Œã•ûˆÚ“®‚Ìê‡ - 
-        //    // rad :: +
-        //    Vector3 rotEuler = this.transform.rotation.eulerAngles;
-        //    float rotz = 0;
-        //    if (rotEuler.z > 180)
-        //    {
-        //        rotz = rotEuler.z - 360f;
-        //    }
-        //    else
-        //    {
-        //        rotz = rotEuler.z;
-        //    }
-        //    if (rotz < _angleLim)
-        //    {
-        //        Quaternion qz = Quaternion.AngleAxis(_dth, transform.forward);
-        //        this.transform.rotation = qz * transform.rotation;
-        //    }
-        //    else
-        //    {
-        //        Quaternion qz = Quaternion.AngleAxis(_dth, -transform.forward);
-        //        this.transform.rotation = qz * transform.rotation;
-        //    }
-
-        //}
-        //else if (_rb2D.velocity.x >= 0)
-        //{
-        //    // - ‘O•ûˆÚ“®‚Ìê‡ - 
-        //    // rad :: -
-        //    Vector3 rotEuler = this.transform.rotation.eulerAngles;
-        //    float rotz = 0;
-        //    if (rotEuler.z > 180)
-        //    {
-        //        rotz = rotEuler.z - 360f;
-        //    } else
-        //    {
-        //        rotz = rotEuler.z;
-        //    }
-        //    if (rotz > -_angleLim)
-        //    {
-        //        Quaternion qz = Quaternion.AngleAxis(_dth, -transform.forward);
-        //        this.transform.rotation = qz * transform.rotation;
-        //    } else
-        //    {
-        //        Quaternion qz = Quaternion.AngleAxis(_dth, transform.forward);
-        //        this.transform.rotation = qz * transform.rotation;
-        //    }
-        //}
     }
 
     public int GetDamage()

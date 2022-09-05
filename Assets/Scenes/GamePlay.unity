@@ -1232,7 +1232,7 @@ MonoBehaviour:
   _backGround: {fileID: 3046293820171507153, guid: 5d0ecd56d9c02e64589b819ca132d86b, type: 3}
   _spawnNum: 2
   _spawnSpan: 92.2
-  _backGroundSpeed: -1
+  _backGroundSpeed: -0.05
   _backGround_delete_x: -66
 --- !u!1 &827079459
 GameObject:
@@ -3053,9 +3053,9 @@ MonoBehaviour:
   _rb2D: {fileID: 2142552222}
   _heliTargetPos: {fileID: 424723}
   _velMax: 10
-  _kp: 10
+  _kp: 5
   _ki: 0.01
-  _kd: 2
+  _kd: 0.2
   _angleLim: 20
   _dth: 0.5
 --- !u!50 &2142552222
@@ -3094,3 +3094,4 @@ MonoBehaviour:
   _heliTargetPos: {fileID: 424722}
   _enemyRandPos: []
   _enemyRandPosNum: 10
+  _moveTime: 4

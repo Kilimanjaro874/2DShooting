@@ -46,7 +46,7 @@ public class SpawnItem : MonoBehaviour
         var rg2D = gold.GetComponent<Rigidbody2D>();    // リジッドボディ取得
 
         // ゴールド射出方向を定める力ベクトル作成＆作用
-        Vector2 forceDir = new Vector2(Random.Range(-10, 2), Random.Range(-3, 5));
+        Vector2 forceDir = new Vector2(Random.Range(-8, 0), Random.Range(-3, 5));
         rg2D.AddForce(forceDir, ForceMode2D.Impulse);
 
     }
