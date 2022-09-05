@@ -22,7 +22,6 @@ public class SpawnItem : MonoBehaviour
         {
             _spawnFlag = true;
         }
-        
     }
 
     private void FixedUpdate()
@@ -43,7 +42,7 @@ public class SpawnItem : MonoBehaviour
     {
         // ゴールドインスタンス化
         var gold = Instantiate(_Gold);
-        gold.transform.SetParent(transform, false);
+        gold.transform.position = transform.position;
         var rg2D = gold.GetComponent<Rigidbody2D>();    // リジッドボディ取得
 
         // ゴールド射出方向を定める力ベクトル作成＆作用
