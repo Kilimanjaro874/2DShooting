@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private float _countdownSec = 3 * 60f;
     [SerializeField]
     private GameObject _playerGObj;
+    
 
     // Start is called before the first frame update
     void Start()
