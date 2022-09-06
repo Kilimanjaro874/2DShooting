@@ -1,0 +1,12 @@
+diff a/Assets/BackGroundManager.cs b/Assets/BackGroundManager.cs	(rejected hunks)
+@@ -32,9 +32,7 @@
+     // Update is called once per frame
+     private void FixedUpdate()
+     {
+-        // �w�i
+-
+-
++       
+         // backGround�𑬓x�ɉ����Ĉړ�������
+         for(int i = 0; i < transform.childCount; i++)
+         {

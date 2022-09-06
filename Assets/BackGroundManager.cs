@@ -32,9 +32,7 @@ public class BackGroundManager : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        // ”wŒi
-
-
+       
         // backGround‚ð‘¬“x‚É‰ž‚¶‚ÄˆÚ“®‚³‚¹‚é
         for(int i = 0; i < transform.childCount; i++)
         {
