@@ -2674,7 +2674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf6fef389155794ea28b9153d2ec174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countdownSec: 5
+  _countdownSec: 180
   _playerGObj: {fileID: 343643745}
   _enemyObj: {fileID: 2142552218}
   _gameOverWindow: {fileID: 1983799066}
@@ -4782,9 +4782,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2142552219}
-  - component: {fileID: 2142552220}
   - component: {fileID: 2142552223}
   - component: {fileID: 2142552221}
+  - component: {fileID: 2142552220}
   - component: {fileID: 2142552222}
   m_Layer: 0
   m_Name: Enemy

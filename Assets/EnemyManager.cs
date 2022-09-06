@@ -43,7 +43,7 @@ public class EnemyManager : MonoBehaviour
             _heliTargetPos.transform.position = _enemyRandPos[no];
         }
 
-        Debug.Log(_damageTotal);
+       
     }
 
     private bool TimeCounter(float delta_time)
