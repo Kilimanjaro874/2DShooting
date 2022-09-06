@@ -26,21 +26,27 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _g_oRankChar;       // ゲームオーバー画面：ランク(S-D)表示用
 
-
-
     private float _gameOverWindowCount = 0f;    // タイムアップ後のカウンタ用
+    private int[] _feverDamageThreshold = new int[30];      // フィーバータイム突入ダメージ累計閾値
+    private float[] _coinNumExpectedValue = new float[30];  // コイン出現数期待値
+    private int _feverCount = 0;                            // フィーバータイム回数カウント
+    private int _damageTempCount;                           // フィーバータイム用ダメージ一時カウンタ
 
-
-    // Start is called before the first frame update
     void Start()
     {
-        
+        for(int i = 0; i < _feverDamageThreshold.Length; i++)
+        {
+            // log10(0):-infinit,log10(1):0の解を除いた計算式を格納していく
+            // 計算式の詳細はプロジェクトフォルダ同梱のCoinSpawnExam.xlsxに記載
+            _feverDamageThreshold[i] = (int)(250F * Mathf.Log10(i+2));
+            _coinNumExpectedValue[i] = (float)(Mathf.Log10(i+2) * (1.0 / 0.3));
+
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
         // --- ゲームオーバー後の処理 --- //
         if(GameOver(Time.deltaTime, 3f)) {
             BoardRender(0f, false);            // 左上表示のUI無効化
@@ -54,7 +60,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-   
+ 
     private bool GameOver(float delta_time, float viewTime)
     {
         // -- ゲームオーバーならばtrueを返す関数：タイム0を数えた後、viewTime後にゲームオーバー画面を表示 -- //

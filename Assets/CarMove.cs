@@ -22,8 +22,6 @@ public class CarMove : MonoBehaviour
     {
         // ユーザー入力受付
         _inputHor = Input.GetAxisRaw("Horizontal");
-        //this.transform.position = _rb2D.transform.position;
-        //this.transform.rotation = _rb2D.transform.rotation;
     }
 
 
@@ -38,7 +36,7 @@ public class CarMove : MonoBehaviour
 
             }
 
-            // 入力：減速
+            // 入力：減速(ブレーキ)
             if (_inputHor < 0)
             {
                 _rb2D.AddForce(new Vector2(_inputHor * _backTorqueCoff, 0));
@@ -54,7 +52,6 @@ public class CarMove : MonoBehaviour
         {
             _money += gold.GetScore();      // スコア加算
             Destroy(other.gameObject);      // ゴールド消去
-
         }
     }
 

@@ -42,8 +42,6 @@ public class EnemyManager : MonoBehaviour
             int no = Random.Range(0, _enemyRandPosNum + 4);
             _heliTargetPos.transform.position = _enemyRandPos[no];
         }
-
-       
     }
 
     private bool TimeCounter(float delta_time)

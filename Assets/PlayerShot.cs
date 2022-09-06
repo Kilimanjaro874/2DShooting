@@ -18,7 +18,6 @@ public class PlayerShot : MonoBehaviour
     {
         // リロードが済んでいれば弾丸発射
         Shot();
-
     }
 
     void Shot()
@@ -30,10 +29,8 @@ public class PlayerShot : MonoBehaviour
             Vector3 dir = _targetPos.position - _muzzlePos.position;
             dir.Normalize();    // 射撃方向単位ベクトル
             float angle = Mathf.Atan2(dir.x, dir.y);
-
             // 弾の生成
             var bullet = Instantiate(_bullet, _muzzlePos.position, Quaternion.Euler( 0, 0, -1*Mathf.Rad2Deg * angle ));
-           
             Count(true);    // リロード時間開始
         }
     }

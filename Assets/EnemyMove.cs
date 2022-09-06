@@ -62,7 +62,7 @@ public class EnemyMove : MonoBehaviour
         _preErrorPos = posError;    // 今フレームの誤差を格納しておく
 
         // --- ヘリコプターの姿勢水平制御 --- //
-        // -- 水平移動中の速度に応じて傾斜角度変化 
+        // -- 水平移動中の速度に応じて目標傾斜角度変化 
 
         Vector3 rotEuler = this.transform.rotation.eulerAngles;
         float rotz = 0;
@@ -90,6 +90,7 @@ public class EnemyMove : MonoBehaviour
         }
         else if (_rb2D.velocity.x < 0)
         {
+            // 後傾角度にしたい
             if (rotz >= _angleLim)
             {
                 transform.Rotate(0, 0, -_dth);
