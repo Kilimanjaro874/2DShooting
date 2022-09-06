@@ -25,11 +25,6 @@ public class EnemyMove : MonoBehaviour
     private int _damage = 0;
 
 
-    private void Update()
-    {
-        // ダメージに応じてゴールドドロップ
-    }
-
     private void FixedUpdate()
     {
         // ヘリを位置制御（ふわふわ飛んでいる感じを再現＆制御係数で感じの調整したい)
@@ -45,7 +40,6 @@ public class EnemyMove : MonoBehaviour
             Destroy(other.gameObject);              //  弾丸消去
         }
         
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -127,7 +121,6 @@ public class EnemyMove : MonoBehaviour
             }
         }
     }
-
     public int GetDamage()
     {
         // ヘリのダメージ総量を返す
