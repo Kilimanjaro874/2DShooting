@@ -5,34 +5,50 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _goldSpawner;        // ゴールドスポナー参照
+    private GameObject _heliTargetPos;      // ヘリの目的位置
     [SerializeField]
-    private GameObject _heliMoover;         // ヘリゲームオブジェクト参照
+    private List<Vector3> _enemyRandPos;    // 敵の移動位置を格納
     [SerializeField]
-    private Transform _heliTargetPos;       // ヘリ制御目標位置
-    private int[] _feverLimDamage = new int[100];   // フィーバータイムに必要なダメージリスト作成
-    // Start is called before the first frame update
-    void Start()
+    private int _enemyRandPosNum = 10;           // 敵移動位置個数指定
+    [SerializeField]
+    private float _moveTime = 3F;           // 敵の移動スパン(s)
+
+   
+    private float _moveTimeCount = 0F;      // 敵の移動スパンカウント用
+    private int _damageTotal = 0;           // ダメージ総量
+
+    private void Start()
     {
-        // フィーバータイムのダメージ積算値配列作成
-        for(int i = 0; i < _feverLimDamage.Length; i++)
+        for(int i = 0; i < _enemyRandPosNum; i++)
         {
-            _feverLimDamage[i] = (int)(50 + i * 50 / 2);
+            int x = Random.Range(-4, 14);
+            int y = Random.Range(8, 12);
+            _enemyRandPos.Add(new Vector3(x, y, 0));
+        }
+        // 次の4つの隅位置は欲しいので追加する
+        _enemyRandPos.Add(new Vector3(-4, 14, 0));
+        _enemyRandPos.Add(new Vector3(14, 14, 0));
+        _enemyRandPos.Add(new Vector3(-4, 8, 0));
+        _enemyRandPos.Add(new Vector3(14, 8, 0));
+
+    }
+
+    private void Update()
+    {
+        // ヘリの目標位置更新
+        if (TimeCounter(Time.deltaTime))
+        {
+            int no = Random.Range(0, _enemyRandPosNum + 4);
+            _heliTargetPos.transform.position = _enemyRandPos[no];
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private bool TimeCounter(float delta_time)
     {
-        // ヘリのダメージに応じてアイテムをドロップする
-        float heliDamage = _heliMoover.GetComponent<EnemyMove>().GetDamage();   // ダメージ積算値取得
-
-        // 妨害アイテムをドロップする
+        _moveTimeCount += delta_time;
+        if (_moveTimeCount < _moveTime) return false;
+        _moveTimeCount = 0;
+        return true;
     }
 
-    private void FixedUpdate()
-    {
-        // ヘリの目標位置を変更し、ヘリ動作を実現する
-
-    }
 }

@@ -12,6 +12,8 @@ public class EnemyMove : MonoBehaviour
     Vector3 _preErrorPos = new Vector3(0, 0, 0);
     Vector3 _integralError = new Vector3(0, 0, 0);
     [SerializeField]
+    float _velMax = 5f;     // 速度限界
+    [SerializeField]
     float _kp = 16f;        // P制御係数  
     [SerializeField]
     float _ki = 0.01f;      // I制御係数
@@ -24,6 +26,11 @@ public class EnemyMove : MonoBehaviour
 
     private int _damage = 0;
 
+
+    private void Update()
+    {
+        // ダメージに応じてゴールドドロップ
+    }
 
     private void FixedUpdate()
     {
@@ -39,7 +46,6 @@ public class EnemyMove : MonoBehaviour
             _damage += bullet.GetBulletDamage();    //  ダメージ加算
             Destroy(other.gameObject);              //  弾丸消去
         }
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -50,7 +56,6 @@ public class EnemyMove : MonoBehaviour
             _damage += bullet.GetBulletDamage();
             Destroy(collision.gameObject);              //  弾丸消去
         }
- 
     }
 
     private void HeliController(float delta_time, Transform targetPos)
@@ -66,61 +71,55 @@ public class EnemyMove : MonoBehaviour
         // -- 制御入力をリジッドボディへ反映 -- //
         Vector2 uf2D = uf;  // 3D -> 2D(x, y)落とし込み
         _rb2D.AddForce(uf);
+        // 速度制限
+        if(_rb2D.velocity.magnitude >= _velMax)
+        {
+            _rb2D.velocity = _rb2D.velocity.normalized * _velMax;
+        }
 
         _preErrorPos = posError;    // 今フレームの誤差を格納しておく
 
         // --- ヘリコプターの姿勢水平制御 --- //
         // -- 水平移動中の速度に応じて傾斜角度変化 
-        if (_rb2D.velocity.x < 0)
-        {
-            // - 後方移動の場合 - 
-            // rad :: +
-            Vector3 rotEuler = this.transform.rotation.eulerAngles;
-            float rotz = 0;
-            if (rotEuler.z > 90)
-            {
-                rotz = rotEuler.z - 360f;
-            }
-            else
-            {
-                rotz = rotEuler.z;
-            }
-            if (rotz < _angleLim)
-            {
-                Quaternion qz = Quaternion.AngleAxis(_dth, transform.forward);
-                this.transform.rotation = qz * transform.rotation;
-            }
-            else
-            {
-                Quaternion qz = Quaternion.AngleAxis(_dth, -transform.forward);
-                this.transform.rotation = qz * transform.rotation;
-            }
 
-        }
-        else if (_rb2D.velocity.x >= 0)
+        Vector3 rotEuler = this.transform.rotation.eulerAngles;
+        float rotz = 0;
+        // 角度を180 ~ -180(deg)に変換
+        if(rotEuler.z > 180)
         {
-            // - 前方移動の場合 - 
-            // rad :: -
-            Vector3 rotEuler = this.transform.rotation.eulerAngles;
-            float rotz = 0;
-            if (rotEuler.z > 90)
+            rotz = rotEuler.z - 360f;
+        } else
+        {
+            rotz = rotEuler.z;
+        }
+
+        // 前進中
+        if (_rb2D.velocity.x >= 0)
+        {
+            // 前傾角度にしたい
+            if (rotz >= -_angleLim)
             {
-                rotz = rotEuler.z - 360f;
-            } else
-            {
-                rotz = rotEuler.z;
+                transform.Rotate(0, 0, -_dth);
             }
-            if (rotz > -_angleLim)
+            else if (rotz < -_angleLim)
             {
-                Quaternion qz = Quaternion.AngleAxis(_dth, -transform.forward);
-                this.transform.rotation = qz * transform.rotation;
-            } else
-            {
-                Quaternion qz = Quaternion.AngleAxis(_dth, transform.forward);
-                this.transform.rotation = qz * transform.rotation;
+                transform.Rotate(0, 0, _dth);
             }
         }
+        else if (_rb2D.velocity.x < 0)
+        {
+            if (rotz >= _angleLim)
+            {
+                transform.Rotate(0, 0, -_dth);
+            }
+            else if (rotz < _angleLim)
+            {
+                transform.Rotate(0, 0, _dth);
+            }
+        }
+
     }
+
     public int GetDamage()
     {
         // ヘリのダメージ総量を返す
