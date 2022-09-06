@@ -16,7 +16,7 @@ public class CarMove : MonoBehaviour
  
     private float _inputHor = 0;            // ユーザー入力水平方向記録用
 
-    private int _score = 0;                 // ゲームスコア
+    private int _money = 0;                 // ゲームスコア
 
     private void Update()
     {
@@ -52,16 +52,16 @@ public class CarMove : MonoBehaviour
         var gold = other.gameObject.GetComponent<GoldScript>();
         if (gold)
         {
-            _score += gold.GetScore();      // スコア加算
+            _money += gold.GetScore();      // スコア加算
             Destroy(other.gameObject);      // ゴールド消去
 
         }
     }
 
-    public int GetScore()
+    public int GetMoneyNum()
     {
         // スコア積算量を返す
-        return _score;
+        return _money;
     }
 
 

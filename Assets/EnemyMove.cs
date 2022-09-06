@@ -24,7 +24,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField]
     float _dth = 1f;  // ƒwƒŠŒXÎŠp“x§ŒäŒW”
 
-    private int _damage = 0;
+  
 
 
     private void Update()
@@ -38,25 +38,7 @@ public class EnemyMove : MonoBehaviour
         HeliController(Time.deltaTime, _heliTargetPos);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        var bullet = other.gameObject.GetComponent<bulletMove>();
-        if (bullet)
-        {
-            _damage += bullet.GetBulletDamage();    //  ƒ_ƒ[ƒW‰ÁZ
-            Destroy(other.gameObject);              //  ’eŠÛÁ‹
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        var bullet = collision.gameObject.GetComponent<bulletMove>();
-        if (bullet)
-        {
-            _damage += bullet.GetBulletDamage();
-            Destroy(collision.gameObject);              //  ’eŠÛÁ‹
-        }
-    }
+    
 
     private void HeliController(float delta_time, Transform targetPos)
     {
@@ -120,9 +102,4 @@ public class EnemyMove : MonoBehaviour
 
     }
 
-    public int GetDamage()
-    {
-        // ƒwƒŠ‚Ìƒ_ƒ[ƒW‘—Ê‚ğ•Ô‚·
-        return _damage;
-    }
 }
