@@ -41,6 +41,12 @@ public class EnemyManager : MonoBehaviour
             int no = Random.Range(0, _enemyRandPosNum + 4);
             _heliTargetPos.transform.position = _enemyRandPos[no];
         }
+        // ヘリ動作スクリプト取得
+        var heri = GetComponent<EnemyMove>();
+        // ダメージ総量取得
+        _damageTotal = heri.GetDamage();
+
+
     }
 
     private bool TimeCounter(float delta_time)
