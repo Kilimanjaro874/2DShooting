@@ -23,22 +23,12 @@ public class EnemyMove : MonoBehaviour
     float _angleLim = 20f;  // ヘリ傾斜角度限界(deg) 
     [SerializeField]
     float _dth = 1f;  // ヘリ傾斜角度制御係数
-
-  
-
-
-    private void Update()
-    {
-        // ダメージに応じてゴールドドロップ
-    }
-
+ 
     private void FixedUpdate()
     {
-        // ヘリを位置制御（ふわふわ飛んでいる感じを再現＆制御係数で感じの調整したい)
+        // ヘリを位置＆姿勢制御（ふわふわ飛んでいる感じを再現＆制御係数で良い感じの調整にしたい)
         HeliController(Time.deltaTime, _heliTargetPos);
     }
-
-    
 
     private void HeliController(float delta_time, Transform targetPos)
     {

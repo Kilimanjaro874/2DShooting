@@ -7,6 +7,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private GameObject _heliTargetPos;      // ヘリの目的位置
     [SerializeField]
+    private GameObject _itemSpawner;        // アイテムスポナー
+    [SerializeField]
     private List<Vector3> _enemyRandPos;    // 敵の移動位置を格納
     [SerializeField]
     private int _enemyRandPosNum = 10;      // 敵移動位置個数指定
@@ -15,7 +17,13 @@ public class EnemyManager : MonoBehaviour
 
    
     private float _moveTimeCount = 0F;      // 敵の移動スパンカウント用
-    private int _damageTotal = 0;           // ダメージ総量
+    private int _damageTotal = 0;           // ダメージ総数
+
+    public enum _Item{                     // アイテム列挙型
+        gold,
+        bomb
+    }
+    _Item _item;
 
     private void Start()
     {
@@ -42,6 +50,8 @@ public class EnemyManager : MonoBehaviour
             int no = Random.Range(0, _enemyRandPosNum + 4);
             _heliTargetPos.transform.position = _enemyRandPos[no];
         }
+        // -- アイテムスポーン管理 -- //
+       
     }
 
     private bool TimeCounter(float delta_time)
@@ -75,9 +85,23 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public int GetDamege()
-    {   // -- ヘリのダメージ積算値を返す -- //
+    public int GetDamage()
+    {
         return _damageTotal;
+    }
+
+    public void PopItem(_Item item, int num)
+    {
+        // -- 指定アイテムを指定数スポーン -- //
+        switch (item)
+        {
+            case _Item.gold:    // ゴールド
+                _itemSpawner.GetComponent<SpawnItem>().SpawnGold(num);
+                break;
+            case _Item.bomb:    // グレネード
+
+                break;
+        }
     }
 
 }

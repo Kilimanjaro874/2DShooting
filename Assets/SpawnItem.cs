@@ -28,7 +28,7 @@ public class SpawnItem : MonoBehaviour
     {
         if (_spawnFlag)
         {
-            SpawnGold();
+            SpawnGold(3);
             _spawnFlag = false;
         }
     }
@@ -38,16 +38,17 @@ public class SpawnItem : MonoBehaviour
         _spawnFlag = true;
     }
 
-    public void SpawnGold()
+    public void SpawnGold(int num)
     {
         // ゴールドインスタンス化
-        var gold = Instantiate(_Gold);
-        gold.transform.position = transform.position;
-        var rg2D = gold.GetComponent<Rigidbody2D>();    // リジッドボディ取得
-
-        // ゴールド射出方向を定める力ベクトル作成＆作用
-        Vector2 forceDir = new Vector2(Random.Range(-8, 0), Random.Range(-3, 5));
-        rg2D.AddForce(forceDir, ForceMode2D.Impulse);
-
+        for (int i = 0; i < num; i++)
+        {
+            var gold = Instantiate(_Gold);
+            gold.transform.position = transform.position;
+            var rg2D = gold.GetComponent<Rigidbody2D>();    // リジッドボディ取得
+            // ゴールド射出方向を定める力ベクトル作成＆作用
+            Vector2 forceDir = new Vector2(Random.Range(-8, 0), Random.Range(-3, 5));
+            rg2D.AddForce(forceDir, ForceMode2D.Impulse);
+        }
     }
 }

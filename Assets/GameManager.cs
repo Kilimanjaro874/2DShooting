@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour
     private int _feverCount = 0;                            // フィーバータイム回数カウント
     private int _damageTempCount;                           // フィーバータイム用ダメージ一時カウンタ
 
+    // Enemy関連変数
+    private int _enemyTotalDamage = 0;          // 敵ダメージ総量
+    private int _preEnemyTotalDamage = 0;       // 1フレーム前の敵ダメージ総量(被弾検知のために使用)
+
     void Start()
     {
         for(int i = 0; i < _feverDamageThreshold.Length; i++)
@@ -49,13 +53,14 @@ public class GameManager : MonoBehaviour
     {
         // --- ゲームオーバー後の処理 --- //
         if(GameOver(Time.deltaTime, 3f)) {
-            BoardRender(0f, false);            // 左上表示のUI無効化
-            GameOverTask();                    // ゲームオーバータスク実行                                    
-            return;                            // ゲームオーバー有効化後、以降の処理無し
+            BoardRender(0f, false);             // 左上表示のUI無効化
+            GameOverTask();                     // ゲームオーバータスク実行                                    
+            return;                             // ゲームオーバー有効化後、以降の処理無し
         }   
 
         // --- ゲーム中の通常処理 --- //
-        BoardRender(Time.deltaTime, true);    // 左上表示のUI管理
+        BoardRender(Time.deltaTime, true);      // 左上表示のUI管理
+        DropItemController();                   // ドロップアイテム管理
 
         
     }
@@ -83,7 +88,7 @@ public class GameManager : MonoBehaviour
         // -- ゲームオーバー中の処理を実行 -- //
         // - リザルトの表示
         _g_oMoneyNum.text = _playerGObj.GetComponent<CarMove>().GetMoneyNum().ToString();       // 稼いだお金
-        _g_oDamageNum.text = _enemyObj.GetComponent<EnemyManager>().GetDamege().ToString();     // 稼いだダメージ
+        _g_oDamageNum.text = _enemyObj.GetComponent<EnemyManager>().GetDamage().ToString();     // 稼いだダメージ
 
     }
 
@@ -114,4 +119,40 @@ public class GameManager : MonoBehaviour
         return timeSpan.ToString(@"mm\:ss");
     }
 
+    
+
+    private void DropItemController()
+    {
+
+
+        // -- 敵がドロップするアイテムの管理を実施 -- //
+        // - ダメージを調べる
+        _enemyTotalDamage = _enemyObj.gameObject.GetComponent<EnemyManager>().GetDamage();
+        if(_enemyTotalDamage != _preEnemyTotalDamage)
+        {
+            // 期待値からドロップするコイン数を計算
+            float expectedValue = _coinNumExpectedValue[_feverCount];   // 期待値格納
+            int tempDropNum = (int)expectedValue;                       // 暫定のドロップ数格納
+            expectedValue = expectedValue - (int)expectedValue;         // 小数点のみ取得
+            if(expectedValue > UnityEngine.Random.Range(0f, 1f))
+            {
+                // 期待値が乱数0~100%を上回ったら追加のコインをドロップする
+                tempDropNum++;
+            }
+            // ゴールドドロップ実行
+            _enemyObj.gameObject.GetComponent<EnemyManager>().PopItem(EnemyManager._Item.gold, tempDropNum);
+        }
+
+        // - 1フレーム前のダメージ総量格納
+        _preEnemyTotalDamage = _enemyTotalDamage;
+    }
+
+    private void FeverController()
+    {
+        // -- フィーバータイムをコントロールする関数 -- //
+        if(_enemyTotalDamage >= _feverDamageThreshold[_feverCount])
+        {
+            _feverCount++;
+        }
+    }
 }
