@@ -16,17 +16,9 @@ public class CarMove : MonoBehaviour
  
     private float _inputHor = 0;            // ユーザー入力水平方向記録用
 
-    private int _money = 0;                 // ゲームスコア
-
-    private void Update()
-    {
-        // ユーザー入力受付
-        _inputHor = Input.GetAxisRaw("Horizontal");
-    }
-
-
     private void FixedUpdate()
     {
+        // -- Playerを左右移動させる -- //
         if(Mathf.Abs(_rb2D.velocity.x) < _topSpeed)
         {
             // 入力：加速
@@ -35,7 +27,6 @@ public class CarMove : MonoBehaviour
                 _rb2D.AddForce(new Vector2(_inputHor * _frontTorqueCoff, 0));
 
             }
-
             // 入力：減速(ブレーキ)
             if (_inputHor < 0)
             {
@@ -44,22 +35,9 @@ public class CarMove : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void SetHorInput(float inputHor)
     {
-        // アイテムゲット用コライダ(is Trigger)にゴールドが当たった時の処理
-        var gold = other.gameObject.GetComponent<GoldScript>();
-        if (gold)
-        {
-            _money += gold.GetScore();      // スコア加算
-            Destroy(other.gameObject);      // ゴールド消去
-        }
+        _inputHor = inputHor;   // ユーザ入力（水平移動)を取得：マネージャーから
     }
-
-    public int GetMoneyNum()
-    {
-        // スコア積算量を返す
-        return _money;
-    }
-
-
+   
 }

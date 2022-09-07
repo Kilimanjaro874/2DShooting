@@ -14,10 +14,18 @@ public class EnemyManager : MonoBehaviour
     private int _enemyRandPosNum = 10;      // 敵移動位置個数指定
     [SerializeField]
     private float _moveTime = 3F;           // 敵の移動スパン(s)
-
+    [SerializeField]
+    private List<AudioClip> _audioClips;     // オーディオクリップリスト
+    [SerializeField]
+    private AudioSource _audioSource;       // 敵のオーディオソース
    
     private float _moveTimeCount = 0F;      // 敵の移動スパンカウント用
     private int _damageTotal = 0;           // ダメージ総数
+    private int _predamageTotal = 0;        // 1フレーム前のダメージ総量(変化検知に使用)
+
+    private float _heliMoveSoundCount = 0;      // ヘリ効果音ループ再生用カウント
+    private float _heliLoopSec = 3f;            // ヘリ効果音再生時間
+    private bool _heliHitFlag_1f;               // ヘリ弾丸ヒットフラグ(1フレーム有効)
 
     public enum _Item{                     // アイテム列挙型
         gold,
@@ -39,7 +47,7 @@ public class EnemyManager : MonoBehaviour
         _enemyRandPos.Add(new Vector3(14, 14, 0));
         _enemyRandPos.Add(new Vector3(-4, 8, 0));
         _enemyRandPos.Add(new Vector3(14, 8, 0));
-
+        
     }
 
     private void Update()
@@ -50,8 +58,11 @@ public class EnemyManager : MonoBehaviour
             int no = Random.Range(0, _enemyRandPosNum + 4);
             _heliTargetPos.transform.position = _enemyRandPos[no];
         }
-        // -- アイテムスポーン管理 -- //
-       
+        // -- オーディオ管理 -- //
+        AudioController();
+
+        // ダメージ変化検知用
+        _predamageTotal = _damageTotal;
     }
 
     private bool TimeCounter(float delta_time)
@@ -61,6 +72,20 @@ public class EnemyManager : MonoBehaviour
         if (_moveTimeCount < _moveTime) return false;
         _moveTimeCount = 0;
         return true;        // カウント完了した時, trueを返す
+    }
+
+    void AudioController()
+    {
+        // -- エネミーの効果音を管理する -- //
+        // ヘリ動作音
+        if(_heliMoveSoundCount == 0) { _audioSource.PlayOneShot(_audioClips[0], 0.5f); }
+        _heliMoveSoundCount += Time.deltaTime;
+        if(_heliMoveSoundCount > _heliLoopSec) { _heliMoveSoundCount = 0; }
+        // ダメージ音(軽)
+        if(_damageTotal != _predamageTotal) { _audioSource.PlayOneShot(_audioClips[1], 0.5f); }
+
+
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -82,6 +107,7 @@ public class EnemyManager : MonoBehaviour
         {
             _damageTotal += bullet.GetBulletDamage();
             Destroy(collision.gameObject);              //  弾丸消去
+
         }
     }
 

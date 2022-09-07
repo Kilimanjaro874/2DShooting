@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float _countdownSec = 3 * 60f;      // ゲームタイムアップ時間を設定(sec)
     [SerializeField]
-    private GameObject _playerGObj;             // プレイヤーオブジェクト参照
+    private GameObject _playerGObj;              // プレイヤーオブジェクト参照
     [SerializeField]
     private GameObject _enemyObj;               // エネミーオブジェクト参照       
     [SerializeField]
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
     {
         // -- ゲームオーバー中の処理を実行 -- //
         // - リザルトの表示
-        _g_oMoneyNum.text = _playerGObj.GetComponent<CarMove>().GetMoneyNum().ToString();       // 稼いだお金
+        _g_oMoneyNum.text = _playerGObj.GetComponent<PlayerManager>().GetMoneyNum().ToString();       // 稼いだお金
         _g_oDamageNum.text = _enemyObj.GetComponent<EnemyManager>().GetDamage().ToString();     // 稼いだダメージ
 
     }
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         // 時間管理
         _timeText.text = "Time Limit : " + CountDown(Time.deltaTime);
         // スコア表示
-        _scoreText.text = "Money : " + _playerGObj.GetComponent<CarMove>().GetMoneyNum().ToString();
+        _scoreText.text = "Money : " + _playerGObj.GetComponent<PlayerManager>().GetMoneyNum().ToString();
     }
 
     private string CountDown(float delta_time)
@@ -119,16 +119,12 @@ public class GameManager : MonoBehaviour
         return timeSpan.ToString(@"mm\:ss");
     }
 
-    
-
     private void DropItemController()
     {
-
-
         // -- 敵がドロップするアイテムの管理を実施 -- //
         // - ダメージを調べる
         _enemyTotalDamage = _enemyObj.gameObject.GetComponent<EnemyManager>().GetDamage();
-        if(_enemyTotalDamage != _preEnemyTotalDamage)
+        if(_enemyTotalDamage != _preEnemyTotalDamage)   // ダメージ総量の変化検知
         {
             // 期待値からドロップするコイン数を計算
             float expectedValue = _coinNumExpectedValue[_feverCount];   // 期待値格納
