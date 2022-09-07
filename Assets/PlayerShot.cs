@@ -61,4 +61,9 @@ public class PlayerShot : MonoBehaviour
         return _shotedFlag_1f;
     }
 
+    public void SetReloadTime(float reloadTime)
+    {
+        _reloadTime = reloadTime;
+    }
+
 }

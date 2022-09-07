@@ -29,13 +29,17 @@ public class GameManager : MonoBehaviour
     private Slider _feverGage;                  // フィーバーゲージ参照
     [SerializeField]
     private GameObject _feverEffect;            // フィーバータイムエフェクトオブジェクト参照
+    [SerializeField]
+    private TextMeshProUGUI _feverLvText;       // フィーバーレベルテキスト
 
     private float _gameOverWindowCount = 0f;    // タイムアップ後のカウンタ用
     private int[] _feverDamageThreshold = new int[30];      // フィーバータイム突入ダメージ累計閾値
     private float[] _coinNumExpectedValue = new float[30];  // コイン出現数期待値
     private int _feverCount = 0;                            // フィーバータイム回数カウント
     private int _damageTempCount;                           // フィーバータイム用ダメージ一時カウンタ
-    private float _feverTimeSpan = 5f;                      // フィーバータイム継続時間
+    [SerializeField]
+    private float _feverTimeSpan = 3f;                      // フィーバータイム継続時間
+    private float _feverTimeCount = 0f;                     // フィーバータイム経過時間カウント 
     private bool _feverFlag = false;                        // フィーバータイム発動フラグ
 
     // Enemy関連変数
@@ -52,6 +56,8 @@ public class GameManager : MonoBehaviour
             _coinNumExpectedValue[i] = (float)(Mathf.Log10(i+2) * (1.0 / 0.3));
 
         }
+        // エフェクト非表示
+        _feverEffect.SetActive(false);
     }
 
     // Update is called once per frame
@@ -67,7 +73,7 @@ public class GameManager : MonoBehaviour
         // --- ゲーム中の通常処理 --- //
         BoardRender(Time.deltaTime, true);      // 左上表示のUI管理
         DropItemController();                   // ドロップアイテム管理
-        FeverController();                      // フィーバータイム管理
+        FeverController(Time.deltaTime);        // フィーバータイム管理
         // - ダメージ変化検知
         _preEnemyTotalDamage = _enemyTotalDamage;
     }
@@ -107,6 +113,8 @@ public class GameManager : MonoBehaviour
         {
             _timeText.text = "";
             _scoreText.text = "";
+            _feverLvText.text = "";
+            _feverGage.gameObject.SetActive(false);
             return;
         }
         // - レンダー表示の場合
@@ -114,6 +122,9 @@ public class GameManager : MonoBehaviour
         _timeText.text = "Time Limit : " + CountDown(Time.deltaTime);
         // スコア表示
         _scoreText.text = "Money : " + _playerGObj.GetComponent<PlayerManager>().GetMoneyNum().ToString();
+        // フィーバーレベル表示
+        _feverLvText.text = "Lv : " + _feverCount.ToString();
+
     }
 
     private string CountDown(float delta_time)
@@ -147,29 +158,52 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void FeverController()
+    private void FeverController(float delta_time)
     {
+
         // - フィーバータイム発動チェック
         if (!_feverFlag)
         {
             // フィーバータイム発動無しの時だけゲージを貯める
-            if(_enemyTotalDamage != _preEnemyTotalDamage)
+            if (_enemyTotalDamage != _preEnemyTotalDamage)
             {
                 _damageTempCount += 10;
                 // ゲージの値を反映
-                float gagenNum =Mathf.Clamp((float)_damageTempCount / _feverDamageThreshold[_feverCount], 0, 1f); // %表示
+                float gagenNum = Mathf.Clamp((float)_damageTempCount / _feverDamageThreshold[_feverCount], 0, 1f); // %表示
                 _feverGage.value = gagenNum;
             }
-            
+
             // 100%であればフィーバータイム開始
             if (_damageTempCount >= _feverDamageThreshold[_feverCount])
             {
-                _feverFlag = true;
-                _feverCount++;
+                _feverFlag = true;          // フィーバータイム開始
+                _feverCount++;              // 次のレベルへ進める
+                _damageTempCount = 0;       // リセット
+                // プレイヤーマネージャーにフィーバータイムである事を伝える
+                _playerGObj.gameObject.GetComponent<PlayerManager>().ToggleFeverFlag();
+                // エフェクト表示
+                _feverEffect.SetActive(true);
+            }
+        }
+        else
+        {
+            // - フィーバータイム発動時の処理 - //
+            _feverGage.value = 1;               // ゲージ表示はMAXのまま。
+
+            _feverTimeCount += delta_time;
+            if(_feverTimeCount >= _feverTimeSpan)
+            {
+                // フィーバータイム終了処理
+                _feverTimeCount = 0;
+                _feverFlag = false;
+                // プレイヤーマネージャーにフィーバータイム終了である事を伝える
+                _playerGObj.gameObject.GetComponent<PlayerManager>().ToggleFeverFlag();
+                // エフェクト非表示
+                _feverEffect.SetActive(false);
             }
         }
         
-        // - フィーバーゲージを更新
-        
     }
+
+
 }

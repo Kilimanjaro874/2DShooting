@@ -10,15 +10,23 @@ public class PlayerManager : MonoBehaviour
     private List<AudioClip> _audioClips;    // オーディオクリップリスト
     [SerializeField]
     private AudioSource _audioSource;       // プレイヤーのオーディオソース
+    [SerializeField]
+    private float _reloadTime = 0.5f;       // 通常のリロード時間
+    [SerializeField]
+    private float _reloadTimeInFever = 0.15f;   // フィーバータイム中のリロード時間
 
-    private int _totalGold = 0;     // ゴールド総数
-    private int _preTotalGold = 0;  // 1フレーム前のゴールド総数(変化検知に使用)
+    private int _totalGold = 0;         // ゴールド総数
+    private int _preTotalGold = 0;      // 1フレーム前のゴールド総数(変化検知に使用)
+    private bool _feverFlag = false;    // フィーバータイムフラグ
 
     void Update()
     {
-        InputReflection();      // キャラコン入力
-        AudioController();      // プレイヤーのオーディオ再生管理
+        InputReflection();          // キャラコン入力
+        AudioController();          // プレイヤーのオーディオ再生管理
+        ChangePlayerReloadTime();   // リロード時間変更(フィーバータイム時リロード時間短縮)
+        // ゴールドの変化検知
         _preTotalGold = _totalGold;
+        
     }
 
     void InputReflection()
@@ -42,6 +50,19 @@ public class PlayerManager : MonoBehaviour
 
     }
 
+    private void ChangePlayerReloadTime()
+    {
+        // - プレイヤーのリロード時間変更 - //
+        if (_feverFlag)
+        {   // フィーバータイム
+            _player.gameObject.GetComponent<PlayerShot>().SetReloadTime(_reloadTimeInFever);
+        }
+        else
+        {   // 通常
+            _player.gameObject.GetComponent<PlayerShot>().SetReloadTime(_reloadTime);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         // アイテムゲット用コライダ(is Trigger)にゴールドが当たった時の処理
@@ -57,5 +78,10 @@ public class PlayerManager : MonoBehaviour
     {
         // ゴールド量を返す
         return _totalGold;
+    }
+
+    public void ToggleFeverFlag()
+    {
+        _feverFlag = !_feverFlag;
     }
 }
