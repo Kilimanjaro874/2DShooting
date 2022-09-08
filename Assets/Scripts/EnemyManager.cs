@@ -27,6 +27,11 @@ public class EnemyManager : MonoBehaviour
     private float _heliLoopSec = 3f;            // ヘリ効果音再生時間
     private bool _heliHitFlag_1f;               // ヘリ弾丸ヒットフラグ(1フレーム有効)
 
+    // 画像取得
+    private SpriteRenderer _heliImage;              // ヘリ画像取得
+    private float _heliDmgColorChangeTime = 0.05f;   // ヘリダメージ時、カラーチェンジする時間間隔
+    private float _heliDmgColorChangeCount = 0f;    // カラーチェンジ時間カウント
+
     public enum _Item{                     // アイテム列挙型
         gold,
         bomb
@@ -47,7 +52,8 @@ public class EnemyManager : MonoBehaviour
         _enemyRandPos.Add(new Vector3(14, 14, 0));
         _enemyRandPos.Add(new Vector3(-4, 8, 0));
         _enemyRandPos.Add(new Vector3(14, 8, 0));
-        
+        // ヘリ画像取得
+        _heliImage = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -60,6 +66,8 @@ public class EnemyManager : MonoBehaviour
         }
         // -- オーディオ管理 -- //
         AudioController();
+        // -- ダメージ時カラーチェンジ -- //
+        DamageColorChange(Time.deltaTime);
 
         // ダメージ変化検知用
         _predamageTotal = _damageTotal;
@@ -74,6 +82,24 @@ public class EnemyManager : MonoBehaviour
         return true;        // カウント完了した時, trueを返す
     }
 
+    private void DamageColorChange(float delta_time)
+    {
+        
+        if(_predamageTotal != _damageTotal)
+        {
+            _heliDmgColorChangeCount = _heliDmgColorChangeTime;
+            _heliImage.color = new Color(1, 0.5f, 0.5f);  // 赤色に表示
+        }
+
+        if(_heliDmgColorChangeCount >= 0)
+        {
+            _heliDmgColorChangeCount -= delta_time;
+            return;
+        }
+        _heliImage.color = new Color(1, 1, 1);      // デフォルトカラーに戻す
+
+    }
+
     void AudioController()
     {
         // -- エネミーの効果音を管理する -- //
@@ -84,8 +110,6 @@ public class EnemyManager : MonoBehaviour
         // ダメージ音(軽)
         if(_damageTotal != _predamageTotal) { _audioSource.PlayOneShot(_audioClips[1], 0.5f); }
 
-
-        
     }
 
     private void OnTriggerEnter2D(Collider2D other)

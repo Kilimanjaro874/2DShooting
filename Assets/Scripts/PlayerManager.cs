@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
         InputReflection();          // キャラコン入力
         AudioController();          // プレイヤーのオーディオ再生管理
         ChangePlayerReloadTime();   // リロード時間変更(フィーバータイム時リロード時間短縮)
-        // ゴールドの変化検知
+        // ゴールドの変化検知用
         _preTotalGold = _totalGold;
         
     }
