@@ -19,7 +19,6 @@ public class PlayerManager : MonoBehaviour
     private int _preTotalGold = 0;      // 1フレーム前のゴールド総数(変化検知に使用)
     private bool _feverFlag = false;    // フィーバータイムフラグ
 
-    private bool _waitFlag_1f = false;     // グレネード爆破で待機する時間(1フレーム有効)
     private float _waitCount = 0;           // グレネード爆発で待機する時間カウント
     [SerializeField]
     private float _waitTime = 1.5f;          // グレネード爆発ウェイト時間設定
@@ -39,7 +38,6 @@ public class PlayerManager : MonoBehaviour
 
     void InputReflection(bool flag)
     {
-
         // -- ユーザ入力を反映 -- //
         float inputHor = Input.GetAxis("Horizontal");  // 左右移動
         float fire = Input.GetAxis("Fire1");           // 射撃
@@ -104,19 +102,15 @@ public class PlayerManager : MonoBehaviour
         if (_waitCount > 0) return false;
         return true;
     }
-
-
     public int GetMoneyNum()
     {
         // ゴールド量を返す
         return _totalGold;
     }
-
     public void ToggleFeverFlag()
     {
         _feverFlag = !_feverFlag;
     }
-
     public void SetGameEnd()
     {
         _gameEnd = true;
