@@ -32,6 +32,8 @@ public class EnemyManager : MonoBehaviour
     private float _heliDmgColorChangeTime = 0.05f;   // ヘリダメージ時、カラーチェンジする時間間隔
     private float _heliDmgColorChangeCount = 0f;    // カラーチェンジ時間カウント
 
+    private bool _gameEnd = false;              // ゲーム終了フラグ
+
     public enum _Item{                     // アイテム列挙型
         gold,
         bomb
@@ -149,9 +151,16 @@ public class EnemyManager : MonoBehaviour
                 _itemSpawner.GetComponent<SpawnItem>().SpawnGold(num);
                 break;
             case _Item.bomb:    // グレネード
-                _itemSpawner.GetComponent<SpawnItem>().SpawnBomb(num);
+                if (!_gameEnd) { 
+                    _itemSpawner.GetComponent<SpawnItem>().SpawnBomb(num);
+                }
                 break;
         }
+    }
+
+    public void SetGameEnd()
+    {
+        _gameEnd = true;
     }
 
 }

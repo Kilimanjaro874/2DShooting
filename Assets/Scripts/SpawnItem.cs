@@ -32,9 +32,10 @@ public class SpawnItem : MonoBehaviour
         {
             var bomb = Instantiate(_Bomb);
             bomb.transform.position = transform.position;
+            bomb.transform.position += new Vector3(2f, 0, 0);
             var rg2D = bomb.GetComponent<Rigidbody2D>();    // リジッドボディ取得
             // ゴールド射出方向を定める力ベクトル作成＆作用
-            Vector2 forceDir = new Vector2(Random.Range(-8, -2), Random.Range(0, 5));
+            Vector2 forceDir = new Vector2(Random.Range(-5, -2), Random.Range(5, 8));
             rg2D.AddForce(forceDir, ForceMode2D.Impulse);
             rg2D.AddTorque(Random.Range(-5f, 5f));
         }

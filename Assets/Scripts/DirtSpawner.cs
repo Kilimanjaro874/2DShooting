@@ -11,7 +11,7 @@ public class DirtSpawner : MonoBehaviour
     void FixedUpdate()
     {
         // - プレイヤーを邪魔する泥をスポーン
-        if (UnityEngine.Random.Range(0, 500) > (500 - 5))
+        if (UnityEngine.Random.Range(0, 500) > (500 - 10))
         {
             var dirt = Instantiate(_dirt, transform.position,Quaternion.identity);
         }

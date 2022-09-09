@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     private void FixedUpdate()
     {
         // - プレイヤーを邪魔する爆弾スポーン
-        if (UnityEngine.Random.Range(0, 1000) > (998 - _feverCount))
+        if (UnityEngine.Random.Range(0, 1000) > (995 - _feverCount))
         {
             _enemyObj.gameObject.GetComponent<EnemyManager>().PopItem(EnemyManager._Item.bomb, 1);
         }
@@ -94,6 +94,8 @@ public class GameManager : MonoBehaviour
         {
             // プレイヤー操作無効化
             _playerGObj.gameObject.GetComponent<PlayerManager>().SetGameEnd();
+            // 敵の爆弾投下無効か
+            _enemyObj.gameObject.GetComponent<EnemyManager>().SetGameEnd();
             
             // カウント終了後、ゲームオーバー画面を有効化
             _gameOverWindowCount += delta_time;
@@ -111,8 +113,11 @@ public class GameManager : MonoBehaviour
     {
         // -- ゲームオーバー中の処理を実行 -- //
         // - リザルトの表示
-        _g_oMoneyNum.text = _playerGObj.GetComponent<PlayerManager>().GetMoneyNum().ToString();       // 稼いだお金
-        _g_oDamageNum.text = _enemyObj.GetComponent<EnemyManager>().GetDamage().ToString();     // 稼いだダメージ
+        float moneyNum = _playerGObj.GetComponent<PlayerManager>().GetMoneyNum();
+        float damageNum = _enemyObj.GetComponent<EnemyManager>().GetDamage();
+        _g_oMoneyNum.text = moneyNum.ToString();       // 稼いだお金
+        _g_oDamageNum.text = damageNum.ToString();     // 稼いだダメージ
+        _g_oScoreNum.text = (moneyNum * damageNum/100).ToString();
 
     }
 
