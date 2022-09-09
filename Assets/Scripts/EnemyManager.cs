@@ -149,7 +149,7 @@ public class EnemyManager : MonoBehaviour
                 _itemSpawner.GetComponent<SpawnItem>().SpawnGold(num);
                 break;
             case _Item.bomb:    // グレネード
-
+                _itemSpawner.GetComponent<SpawnItem>().SpawnBomb(num);
                 break;
         }
     }

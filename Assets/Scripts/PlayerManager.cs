@@ -19,9 +19,17 @@ public class PlayerManager : MonoBehaviour
     private int _preTotalGold = 0;      // 1フレーム前のゴールド総数(変化検知に使用)
     private bool _feverFlag = false;    // フィーバータイムフラグ
 
+    private bool _waitFlag_1f = false;     // グレネード爆破で待機する時間(1フレーム有効)
+    private float _waitCount = 0;           // グレネード爆発で待機する時間カウント
+    [SerializeField]
+    private float _waitTime = 1.5f;          // グレネード爆発ウェイト時間設定
+
+    private bool _gameEnd = false;          // ゲーム終了時、true
+
     void Update()
     {
-        InputReflection();          // キャラコン入力
+        // ユーザ入力受付
+        InputReflection(WaitCount(false));
         AudioController();          // プレイヤーのオーディオ再生管理
         ChangePlayerReloadTime();   // リロード時間変更(フィーバータイム時リロード時間短縮)
         // ゴールドの変化検知用
@@ -29,15 +37,20 @@ public class PlayerManager : MonoBehaviour
         
     }
 
-    void InputReflection()
+    void InputReflection(bool flag)
     {
+
         // -- ユーザ入力を反映 -- //
         float inputHor = Input.GetAxis("Horizontal");  // 左右移動
         float fire = Input.GetAxis("Fire1");           // 射撃
+        if (!flag || _gameEnd)
+        {
+            inputHor = 0;
+            fire = 0;
+        }
         // - オブジェクトに反映
         GetComponent<CarMove>().SetHorInput(inputHor);
         _player.GetComponent<PlayerShot>().GetShotInput(fire);
-
     }
 
     void AudioController()
@@ -72,7 +85,26 @@ public class PlayerManager : MonoBehaviour
             _totalGold += gold.GetScore();      // スコア加算
             Destroy(other.gameObject);      // ゴールド消去
         }
+
+        // 爆弾の処理
+        if (other.gameObject.CompareTag("bomb"))
+        {
+            WaitCount(true);    // ウェイト時間開始
+            _audioSource.PlayOneShot(_audioClips[2]);   // 被ダメージ音再生
+
+        }
     }
+
+    bool WaitCount(bool reset)
+    {
+        // 爆弾被弾中など、射撃を無効化＆エフェクトを発生させたい時に実行
+        if (reset) { _waitCount = _waitTime; }
+        _waitCount -= Time.deltaTime;
+        if(_waitCount <= 0) { _waitCount = 0; }
+        if (_waitCount > 0) return false;
+        return true;
+    }
+
 
     public int GetMoneyNum()
     {
@@ -83,5 +115,10 @@ public class PlayerManager : MonoBehaviour
     public void ToggleFeverFlag()
     {
         _feverFlag = !_feverFlag;
+    }
+
+    public void SetGameEnd()
+    {
+        _gameEnd = true;
     }
 }

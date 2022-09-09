@@ -78,12 +78,23 @@ public class GameManager : MonoBehaviour
         _preEnemyTotalDamage = _enemyTotalDamage;
     }
 
- 
+    private void FixedUpdate()
+    {
+        // - プレイヤーを邪魔する爆弾スポーン
+        if (UnityEngine.Random.Range(0, 1000) > (998 - _feverCount))
+        {
+            _enemyObj.gameObject.GetComponent<EnemyManager>().PopItem(EnemyManager._Item.bomb, 1);
+        }
+    }
+
     private bool GameOver(float delta_time, float viewTime)
     {
         // -- ゲームオーバーならばtrueを返す関数：タイム0を数えた後、viewTime後にゲームオーバー画面を表示 -- //
         if(_countdownSec <= 0)
         {
+            // プレイヤー操作無効化
+            _playerGObj.gameObject.GetComponent<PlayerManager>().SetGameEnd();
+            
             // カウント終了後、ゲームオーバー画面を有効化
             _gameOverWindowCount += delta_time;
             if (_gameOverWindowCount < viewTime) return false;
@@ -156,6 +167,7 @@ public class GameManager : MonoBehaviour
             // ゴールドドロップ実行
             _enemyObj.gameObject.GetComponent<EnemyManager>().PopItem(EnemyManager._Item.gold, tempDropNum);
         }
+
     }
 
     private void FeverController(float delta_time)
