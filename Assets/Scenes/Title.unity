@@ -429,7 +429,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "  Move :  <- [A]  , [D] -> \n  Aim :     Mouse Cursol\n  Shot :    LeftClick"
+  m_text: "  Move :  <- [A]  , [D] -> \n  Aim :     Mouse Cursor\n  Shot :    LeftClick"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -789,6 +789,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4645061275825965560, guid: f16e5866d23fc5f448b0aba58dea67ea, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645061275825965560, guid: f16e5866d23fc5f448b0aba58dea67ea, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.35
+      objectReference: {fileID: 0}
     - target: {fileID: 4645061276143150671, guid: f16e5866d23fc5f448b0aba58dea67ea, type: 3}
       propertyPath: m_Enabled
       value: 0

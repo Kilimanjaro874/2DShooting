@@ -228,12 +228,12 @@ public class GameManager : MonoBehaviour
     string GetRank(float score)
     {
         string rank = "D";
-        if (score > _maxRankScore * 0.5)  { rank = "C"; }
-        if (score > _maxRankScore * 0.7) { rank = "B"; }
-        if (score > _maxRankScore * 0.8) { rank = "A"; }
-        if (score > _maxRankScore * 1.0) { rank = "S"; }
-        if (score > _maxRankScore * 1.1) { rank = "S+"; }
-        if (score > _maxRankScore * 1.2) { rank = "S++"; }
+        if (score > _maxRankScore * 0.4)  { rank = "C"; }
+        if (score > _maxRankScore * 0.5) { rank = "B"; }
+        if (score > _maxRankScore * 0.7) { rank = "A"; }
+        if (score > _maxRankScore * 0.8) { rank = "S"; }
+        if (score > _maxRankScore * 1.0) { rank = "S+"; }
+        if (score > _maxRankScore * 1.15) { rank = "S++"; }
 
         return rank;
     }
