@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     private int _damageTempCount;                           // フィーバータイム用ダメージ一時カウンタ
     [SerializeField]
     private float _feverTimeSpan = 3f;                      // フィーバータイム継続時間
+    [SerializeField]
+    private float _maxRankScore = 450000;                   // Sランクスコアを入力
     private float _feverTimeCount = 0f;                     // フィーバータイム経過時間カウント 
     private bool _feverFlag = false;                        // フィーバータイム発動フラグ
 
@@ -118,6 +120,7 @@ public class GameManager : MonoBehaviour
         _g_oMoneyNum.text = moneyNum.ToString();       // 稼いだお金
         _g_oDamageNum.text = damageNum.ToString();     // 稼いだダメージ
         _g_oScoreNum.text = (moneyNum * damageNum/100).ToString();
+        _g_oRankChar.text = GetRank(moneyNum * damageNum / 100);
 
     }
 
@@ -220,6 +223,19 @@ public class GameManager : MonoBehaviour
             }
         }
         
+    }
+
+    string GetRank(float score)
+    {
+        string rank = "D";
+        if (score > _maxRankScore * 0.5)  { rank = "C"; }
+        if (score > _maxRankScore * 0.7) { rank = "B"; }
+        if (score > _maxRankScore * 0.8) { rank = "A"; }
+        if (score > _maxRankScore * 1.0) { rank = "S"; }
+        if (score > _maxRankScore * 1.1) { rank = "S+"; }
+        if (score > _maxRankScore * 1.2) { rank = "S++"; }
+
+        return rank;
     }
 
 
