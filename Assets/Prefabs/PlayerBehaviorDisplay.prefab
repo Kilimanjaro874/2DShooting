@@ -763,7 +763,7 @@ GameObject:
   - component: {fileID: 4645061277116749385}
   - component: {fileID: 4645061277116749386}
   m_Layer: 0
-  m_Name: PlayerBehavior
+  m_Name: PlayerBehaviorDisplay
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
